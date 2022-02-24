@@ -5,7 +5,21 @@ librarian::shelf(tidyverse, openxlsx, readxl, purrr, janitor, ggbrookings, lubri
 
 source('R/utils.R')
 
-theme_set(theme_thp(base_size = 9) + theme(plot.margin = margin(3.5,7,0,7)))
+
+theme_set(theme_thp(base_size = 9))
+theme_update(plot.margin = margin(3.5,7, 0, 7),
+             panel.grid = ggplot2::element_line(
+  colour = "#CCCCCC",
+  size = 0.25,
+  linetype = "solid"
+),
+legend.position = 'bottom',
+legend.direction = 'horizontal',
+axis.line = ggplot2::element_line(),
+axis.line.x = ggplot2::element_line(),
+axis.line.y = ggplot2::element_blank(),
+axis.ticks = element_blank())
+
 
 path <- "data/brookings_paper_data.xlsx"
 
@@ -111,30 +125,22 @@ snapshot <- function(adp_until = '2020-03-24', bls_until = '2020-02-15', subtitl
 
   if(type == 'employment'){
     ggplot(adp, aes(x = date, y = adp_frb_total, fill = x)) +
-      geom_hline(yintercept = 0, size = 1) +
-      geom_point(stroke = 2, color =  '#999999', size = 0.2, alpha = 0.9) +
-      geom_line(color = '#999999', size = 1, alpha = 0.9) +
+      geom_hline(yintercept = 0, size = 0.5) +
+      geom_point(stroke = 2, color =  '#999999', size = 0.1, alpha = 0.9) +
+      geom_line(color = '#999999', size = 0.5, alpha = 0.9) +
       geom_point(data = bls,
                  mapping = aes(x = date, y  = bls_ces_total),
                  shape = 1,
                  color = unname(brookings_cols('THP_orange')),
-                 size = 5,
+                 size = 4,
                  linetype = 3,
                  fill = NA) +
-      theme_thp(base_size = 9) +
       guides(fill = guide_legend(
         override.aes = list(shape = c(21, 1),
                             linetype = 3,
                             color = c('#999999', brookings_colors['THP_orange']),
                             fill = c('#999999', NA),
                             size = c(2, 6)))) +
-      theme(legend.position = 'bottom',
-            legend.direction = 'horizontal',
-            panel.grid = ggplot2::element_line(
-              colour = "#CCCCCC",
-              size = 0.5,
-              linetype = "dotted"
-            ))  +
       scale_x_date(limits = c(as_date('2020-01-31'), as_date('2020-05-02'))) +
       scale_y_continuous(breaks = seq(4, -28, by = -4),
                          limits = c(-28, 4)) +
@@ -144,35 +150,26 @@ snapshot <- function(adp_until = '2020-03-24', bls_until = '2020-02-15', subtitl
   }
   else{
     ggplot(adp, aes(x = date, y = adp_frb_leisure, fill = x)) +
-      geom_hline(yintercept = 0, size = 1) +
-      geom_point(stroke = 2, color = '#999999', size = 0.2, alpha = 0.9) +
-      geom_line(color = '#999999', size = 1, alpha = 0.9) +
+      geom_hline(yintercept = 0, size = 0.5) +
+      geom_point(stroke = 2, color = '#999999', size = 0.1, alpha = 0.9) +
+      geom_line(color = '#999999', size = 0.5, alpha = 0.9) +
       geom_point(data = bls,
                  mapping = aes(x = date, y  = bls_ces_leisure),
                  shape = 1,
                  color = unname(brookings_cols('THP_orange')),
-                 size = 5,
+                 size = 4,
                  linetype = 3,
                  fill = NA) +
-      theme_thp(base_size = 9) +
       scale_x_date(limits = c(as_date('2020-01-31'), as_date('2020-05-02'))) +
       scale_y_continuous(breaks = seq(4, -28, by = -4),
                          limits = c(-28, 4)) +
 
       labs(x = subtitle,y = 'Millions of jobs (Change since Feb. 15)', title = '<br>') +
-      theme(legend.position = 'bottom',
-            legend.direction = 'horizontal',
-            panel.grid = ggplot2::element_line(
-              colour = "#CCCCCC",
-              size = 0.5,
-              linetype = "dotted"
-            )) +
       guides(fill = guide_legend(
         override.aes = list(shape = c(21, 1),
                             linetype = 3,
                             color = c('#999999', brookings_colors['THP_orange']),
-                            fill = c('#999999', NA),
-                            size = c(2, 6))))
+                            fill = c('#999999', NA))))
   }
 }
 
@@ -206,11 +203,11 @@ l3 <- snapshot(adp_until = '2020-05-20',
 
 
 
-(p1 + p2 + p3 + plot_layout(guides='collect') & theme(legend.position = 'none')) / (l1 + l2 + l3 + plot_layout(guides='collect') & theme(legend.position = 'bottom'))
+(p1 + p2 + p3 + plot_layout(guides='collect') & theme(legend.position = 'none', )) / (l1 + l2 + l3 + plot_layout(guides='collect') & theme(legend.position = 'bottom'))
 
 
 path <- 'figures/fig2'
-ggsave(glue::glue("{path}.pdf"), width = 7, height = 6, device = cairo_pdf, bg = '#F2F7FA', units = 'in', dpi = 300)
+ggsave(glue::glue("{path}.pdf"), width = 6, height = 5, device = cairo_pdf, units = 'in', dpi = 300)
 
 # brookings_save('figures/fig2.png', size = 'large',)
 # ggsave('figures/fig2.png')
@@ -236,10 +233,10 @@ snapshot2 <- function(census_until = '2020-03-01', alt_until = '2020-03-31',
     drop_na() %>%
     ggplot(aes(x = date, y = value, color = name)) +
     geom_line(data = pivot_longer(data$figure3, -date) %>% filter(date <= alt_until),
-              mapping = aes(x = date, y = value, color = name)) +
+              mapping = aes(x = date, y = value, color = name), size = 0.5, alpha = 0.7) +
     geom_hline(yintercept = 0) +
-    geom_line() +
-    geom_point(size = 3) +
+    geom_line(size = 1) +
+    geom_point(size = 1.5) +
 
     scale_color_manual(values = unname(brookings_cols("THP_dkblue","THP_green", "THP_ltblue", "THP_yellow", "THP_purple", "THP_orange")),
                        labels = c('Airport departures', 'Census food services & drinking places', 'Census retail sales', 'Fiserv retail sales', 'Restaurants rsvs')) +
@@ -262,16 +259,18 @@ p1 <- snapshot2()
 p2 <- snapshot2(census_until = '2020-03-15',
                 alt_until = '2020-04-15',
                 subtitle = 'Data as of mid-April') +
-  labs(y = NULL)
+  labs(y = NULL) +
+  theme(axis.text.y = element_blank())
 p3 <- snapshot2(census_until = '2020-05-31',
                 alt_until = '2020-05-31',
                 subtitle = 'Data as of mid-May') +
-  labs(y = NULL)
+  labs(y = NULL) +
+  theme(axis.text.y = element_blank())
 
 p1 + p2 + p3 +  plot_layout(guides='collect') & theme(legend.position = 'bottom')
 
 path <- 'figures/fig3'
-ggsave(glue::glue("{path}.pdf"), width = 5.75, height = 4, device = cairo_pdf, bg = '#F2F7FA', units = 'in', dpi = 300)
+ggsave(glue::glue("{path}.pdf"), width = 5.5, height = 4, device = cairo_pdf, units = 'in', dpi = 300)
 
 
 
@@ -299,7 +298,7 @@ p2 <-data$figure4 %>%
   geom_point(aes(y = bls_ces_leisure, fill = 'BLS-CES'),
              color = unname(brookings_cols('THP_orange'))) +
   scale_x_date(limits = c(as_date('2020-01-30'), as_date('2021-10-02')), date_labels = "%b\n%Y", date_breaks = '3 month') +
-  scale_y_continuous(breaks = seq(-8, 2, by = 1),
+  scale_y_continuous(breaks = seq(-8, 2, by = 2),
                      limits = c(-8, 2.5), expand = expansion()) +
   labs(x = NULL,
        y = NULL) +
@@ -310,7 +309,7 @@ p2 <-data$figure4 %>%
 p1 + p2 +  plot_layout(guides='collect') & theme(legend.position = 'bottom')
 
 path <- 'figures/fig4'
-ggsave(glue::glue("{path}.pdf"), width = 4.5, height = 3, device = cairo_pdf, bg = '#F2F7FA', units = 'in', dpi = 300)
+ggsave(glue::glue("{path}.pdf"), width = 4.5, height = 3, device = cairo_pdf, units = 'in', dpi = 300)
 
 # Figure 5 ------------------------------------------------------------------------------------
 
@@ -346,7 +345,7 @@ p2 <- data$figure5_2 %>%
 p1 | p2
 
 path <- 'figures/fig5'
-ggsave(glue::glue("{path}.pdf"), width = 4.5, height = 4, device = cairo_pdf, bg = '#FAFAFA')
+ggsave(glue::glue("{path}.pdf"), width = 4.5, height = 4, device = cairo_pdf)
 # Figure 6 ------------------------------------------------------------------------------------
 
 
@@ -354,6 +353,7 @@ data$figure6_1 %>%
   pivot_longer(-date) %>%
   mutate(name = factor(name, levels = c('bottom', 'bottom_middle', 'top_middle', 'top'))) %>%
   ggplot(aes(x = date, y = value, color = name)) +
+  geom_hline(yintercept = 100) +
   geom_line(size = 0.5) +
   scale_color_manual(values = unname(brookings_cols("THP_dkblue","THP_green", "THP_ltblue", "THP_yellow")),
                      labels = c('Bottom', 'Bottom-middle', 'Top-middle', 'Top')
@@ -362,7 +362,6 @@ data$figure6_1 %>%
   scale_y_continuous(expand = expansion(),
                      breaks = seq(60, 105, 10),
                      limits = c(65, 105)) +
-  geom_hline(yintercept = 100) +
   labs(x = NULL,
        y = "Week ending February 15, 2020 = 100") +
   guides(color = guide_legend(
@@ -390,49 +389,53 @@ data$figure6_2 %>%
 p1 | p2
 
 path <- 'figures/fig6'
-ggsave(glue::glue("{path}.pdf"), width = 4.5, height = 4, device = cairo_pdf, bg = '#FAFAFA')
+ggsave(glue::glue("{path}.pdf"), width = 4.5, height = 4, device = cairo_pdf)
 # Figure 7 ------------------------------------------------------------------------------------
 
 # Tibble used to shade dates when stimulus checks were sent out
 eip <- tribble(~'start', ~'end',
          '2020-04-15', '2020-04-25',
-        '2021-01-01', '2021-01-10',
-        '2021-03-18', '2021-03-28'
+        '2021-01-04', '2021-01-10',
+        '2021-03-17', '2021-03-23'
         ) %>%
   mutate(start = as_date(start),
          end = as_date(end))
 
-eip_dates <- tribble(~'midpoint',
-                     '2020-04-10',
-                     '2021-01-10',
-                     '2021-03-18') %>%
-  mutate(midpoint = as_date(midpoint))
+
+
+break_vec <- c(as_date('2020-03-01'), seq(from = as_date('2020-06-01'),
+                                          to = as_date('2021-09-01'),
+                                          by = '3 months'),
+               as_date('2021-12-01'))
 # Plot
-  ggplot(data = data$figure7_1,
-         aes(x = date, y = fiserv)) +
+ggplot(data = data$figure7_1,
+       aes(x = date, y = fiserv)) +
   geom_hline(yintercept = 0) +
-  geom_line(color = '#999999', size = 0.5, alpha = 0.9) +
+  geom_line(aes(color = '#999999'), size = 0.5, alpha = 0.9) +
   geom_line(data = data$figure7_2,
-            mapping = aes(x = date, y = census),
-            color = unname(brookings_cols('THP_orange'))) +
+            mapping = aes(x = date, y = census,
+                          color = unname(brookings_cols('THP_orange')))) +
   geom_point(data = data$figure7_2,
              size = 2,
-             mapping = aes(x = date, y = census),
-             color = unname(brookings_cols('THP_orange'))) +
+             mapping = aes(x = date, y = census,
+                           color = unname(brookings_cols('THP_orange')))) +
   labs(x = NULL,
        y = 'Percent change from the same period in 2019') +
-  scale_x_date(limits = c(as_date('2020-03-01'), as_date('2021-12-15')), date_labels = "%b\n%Y", date_breaks = '3 month', expand = expansion()) +
+  scale_color_manual(values = c('#999999', unname(brookings_cols('THP_orange'))),
+                     labels = c('Fiserv, 7-day avg.', 'Census Bureau')) +
+  scale_x_date(limits = c(as_date('2020-03-01'), as_date('2021-12-30')), date_labels = "%b\n%Y", expand = expansion(),
+               breaks = break_vec) +
   scale_y_continuous(expand = expansion(),
                      breaks = seq(-30, 35, 10),
                      limits = c(-30, 35)) +
-    geom_tile(data = eip_dates,
-              mapping = aes(x = midpoint, y = 1, height = Inf, width = 10),
-              fill = 'grey70', alpha = 0.4)
-  # geom_rect(data = eip,
-  #           mapping = aes(xmin = start, xmax = end, ymin = -Inf, ymax = Inf), fill = 'grey70', inherit.aes = FALSE, alpha = 0.4)
+  geom_rect(data = eip,
+            mapping = aes(xmin = start, xmax = end, ymin = -Inf, ymax = Inf), fill = 'grey70', inherit.aes = FALSE, alpha = 0.4) +
+  guides(color = guide_legend(
+    override.aes = list(shape = c(NA, 16)))) +
+  theme(legend.position = 'bottom')
 
 path <- 'figures/fig7'
-ggsave(glue::glue("{path}.pdf"), width = 4.5, height = 3, device = cairo_pdf, bg = '#FAFAFA')
+ggsave(glue::glue("{path}.pdf"), width = 4.5, height = 3, device = cairo_pdf)
 
 # Figure 8 ------------------------------------------------------------------------------------
 
@@ -474,7 +477,7 @@ data$figure8_2 %>%
 p1 | p2
 
 path <- 'figures/fig8'
-ggsave(glue::glue("{path}.pdf"), width = 6.5, height = 5.5, device = cairo_pdf, bg = '#FAFAFA')
+ggsave(glue::glue("{path}.pdf"), width = 4.5, height = 4, device = cairo_pdf)
 
 # Figure 9 ------------------------------------------------------------------------------------
 
@@ -495,6 +498,10 @@ b <- diff(ylim.prim)/diff(ylim.sec)
 a <- ylim.prim[1] - b*ylim.sec[1]
 
 ggplot() +
+  geom_line(data = data$figure9_1,
+            mapping = aes(x = date,
+                y =  opentable_pct_chg_2019, color = 'grey'),
+             alpha = 0.4) +
   geom_line(data = data$figure9_2,
             mapping = aes(x = date,
                           y =a + b * lh_emp,
@@ -504,12 +511,8 @@ ggplot() +
              mapping = aes(x = date,
                            y =a + b * lh_emp,
                            color = unname(brookings_cols('THP_orange')))) +
-  geom_line(data = data$figure9_1,
-            mapping = aes(x = date,
-                y =  opentable_pct_chg_2019, color = 'grey'),
-             alpha = 0.45) +
-  scale_color_manual(labels = c('OpenTable seatings (left axis)', 'Leisure & Hospitality (right axis)'),
-                     values = c('#000000', unname(brookings_cols('THP_orange')) )) +
+  scale_color_manual(labels = rev(c('OpenTable seatings (left axis)', 'Leisure & Hospitality (right axis)')),
+                     values = rev(c('#000000', unname(brookings_cols('THP_orange')) ))) +
   theme(axis.ticks.y.right = element_line(color = unname(brookings_cols('THP_orange'))),
         axis.text.y.right = element_text(color = unname(brookings_cols('THP_orange'))),
         axis.title.y.right = element_text(color = unname(brookings_cols('THP_orange')))
@@ -520,29 +523,30 @@ ggplot() +
            x = as_date('2021-09-01'),
            y = -16,
            label = 'Sept. 7',
-           size = 6) +
+           size = 3) +
   scale_x_date(date_labels = '%b\n%Y',
                date_breaks = '2 months',
-               limits = c(as_date('2020-06-01'), as_date('2021-09-07')),
+               limits = c(as_date('2020-06-01'), as_date('2021-09-25')),
                expand = expansion()) +
   guides(color = guide_legend(
+    reverse = TRUE,
     override.aes = list(shape = c(NA, 16)))) +
-  theme(legend.position = 'bottom')
+  theme(legend.position = 'bottom') +
+  labs(x = NULL)
 
 
 path <- 'figures/fig9'
 
-ggsave(glue::glue("{path}.pdf"), width = 4.5, height = 4, device = cairo_pdf, bg = '#FAFAFA')
+ggsave(glue::glue("{path}.pdf"), width = 4.5, height = 4, device = cairo_pdf)
 # Figure 10 -----------------------------------------------------------------------------------
-
 
 data$figure10_1 %>%
   pivot_longer(-date) %>%
   ggplot(aes(x = date, y = value, color = name)) +
-  geom_line() +
+  geom_line(size = 0.5) +
   scale_y_continuous(expand = expansion(),
-                     limits = c(0, 60),
-                     breaks = seq(0, 60, 20)) +
+                     limits = c(-5, 50),
+                     breaks = seq(0, 50, 10)) +
   scale_x_date(date_labels = '%b\n%Y',
                date_breaks = '3 months',
                expand = expansion(),
@@ -551,15 +555,18 @@ data$figure10_1 %>%
                      values = unname(brookings_cols('THP_dkblue', 'THP_ltgreen', 'THP_orange', 'THP_purple'))) +
   labs(x =  NULL,
        y = 'Percent of businesses') +
-  theme(legend.position = 'bottom') -> p1
+  theme(legend.position = 'bottom') +
+  # theme(legend.key.size = unit(0.25,"line")) +
+  guides(color = guide_legend(nrow = 2,
+                              ncol = 2)) -> p1
 
 data$figure10_2 %>%
   pivot_longer(-date) %>%
   ggplot(aes(x = date, y = value, color = name)) +
-  geom_line() +
+  geom_line(size = 0.5) +
   scale_y_continuous(expand = expansion(),
-                     limits = c(0, 60),
-                     breaks = seq(0, 60, 20)) +
+                     limits = c(-5, 50),
+                     breaks = seq(-0, 50, 10)) +
   scale_x_date(date_labels = '%b\n%Y',
                date_breaks = '3 months',
                expand = expansion(),
@@ -571,10 +578,11 @@ data$figure10_2 %>%
   theme(legend.position = 'bottom',
         axis.text.y = element_blank()) -> p2
 
-p1 | p2
+
+p1 + p2 & theme(legend.text = element_text(size = 4))
 
 path <- 'figures/fig10'
-ggsave(glue::glue("{path}.pdf"), width = 4.5, height = 4, device = cairo_pdf, bg = '#FAFAFA')
+ggsave(glue::glue("{path}.pdf"), width = 4.5, height = 3.5, device = cairo_pdf)
 
 
 # Figure 11 -----------------------------------------------------------------------------------
@@ -593,4 +601,4 @@ data$figure11 %>% pivot_longer(-c(week_num, date)) %>%
   theme(legend.position = 'bottom')
 
 path <- 'figures/fig11'
-ggsave(glue::glue("{path}.pdf"), width = 4.5, height = 4, device = cairo_pdf, bg = '#FAFAFA')
+ggsave(glue::glue("{path}.pdf"), width = 4.5, height = 4, device = cairo_pdf)
