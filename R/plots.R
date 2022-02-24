@@ -16,13 +16,6 @@ data <- path %>%
   map(read_excel, path = path) %>%
   map(.f = rename_dates, .x = .)
 
-
-
-wb <- createWorkbook()
-
-names(data) %>%
-  walk(~addWorksheet(wb, sheetName = .))
-
 walk2(.x = names(data),
       .y = data,
       ~writeData(wb,
@@ -30,9 +23,7 @@ walk2(.x = names(data),
                  x = .y))
 
 
-saveWorkbook(wb,
-             'demo.xlsx',
-             overwrite = TRUE)
+
 # Figure 1 ------------------------------------------------------------------------------------
 
 #Create data to plot
@@ -76,13 +67,14 @@ timeline %>%
             hjust = 0, vjust = vjust, size = 2.5) +
   scale_x_date(breaks = scales::pretty_breaks(n = 9)) +
   scale_color_manual(values = unname(brookings_cols('THP_orange', 'THP_ltblue','THP_ltgreen', 'THP_purple'))) +
+  theme_grey() +
   theme(rect = element_blank(),
         line = element_blank(),
         axis.title = element_blank(),
         axis.text.y = element_blank(),
         axis.ticks.y = element_blank(),
         axis.line = element_blank(),
-        axis.text.x = element_text(size = 4,color = "#000000"),
+        axis.text.x = element_text(size = 7,color = "#000000"),
          legend.text=element_text(size=7),
          legend.title=element_text(size=9),
         legend.key.size = unit(0.5, "cm"),
@@ -100,7 +92,7 @@ timeline %>%
 shift_axis(p1, ymd(20191229), ymd(20200910))
 
 path <- 'figures/fig1'
-ggsave(glue::glue("{path}.pdf"), width = 7, height = 5, device = cairo_pdf,  units = 'in', dpi = 300)
+ggsave(glue::glue("{path}.pdf"), width = 7, height = 5, device = cairo_pdf,  units = 'in', dpi = 300, bg = '#FFFFFF')
 
 # Figure 2 ------------------------------------------------------------------------------------
 
@@ -486,14 +478,57 @@ ggsave(glue::glue("{path}.pdf"), width = 6.5, height = 5.5, device = cairo_pdf, 
 
 # Figure 9 ------------------------------------------------------------------------------------
 
+# We have to read this one in separately because the dates are not formatted in a way Lubridate can parse
+data$figure9_2 <- read_excel("data/brookings_paper_data.xlsx", sheet = 'figure9_2') %>%
+  dplyr::rename(date = dates) %>%
+  mutate(date = as_date(glue::glue('{date}-15')))
 
-ggplot(data$figure9_1,
-       aes(x = date,
-           y = opentable_pct_chg_2019)) +
-  geom_line() +
-  geom_line(data$figure9_2,
-            mapping = aes(
-                y =lh_emp))
+data$figure9_1$opentable_pct_chg_2019
+scales::rescale(x = data$figure9_2$lh_emp,
+                to = range(data$figure9_1$opentable_pct_chg_2019))
+
+
+ylim.prim <- c(-80, 20)
+ylim.sec <- c(12, 16)
+
+b <- diff(ylim.prim)/diff(ylim.sec)
+a <- ylim.prim[1] - b*ylim.sec[1]
+
+ggplot() +
+  geom_line(data = data$figure9_2,
+            mapping = aes(x = date,
+                          y =a + b * lh_emp,
+                          color = unname(brookings_cols('THP_orange')))) +
+  geom_point(data = data$figure9_2,
+             size = 2.5,
+             mapping = aes(x = date,
+                           y =a + b * lh_emp,
+                           color = unname(brookings_cols('THP_orange')))) +
+  geom_line(data = data$figure9_1,
+            mapping = aes(x = date,
+                y =  opentable_pct_chg_2019, color = 'grey'),
+             alpha = 0.45) +
+  scale_color_manual(labels = c('OpenTable seatings (left axis)', 'Leisure & Hospitality (right axis)'),
+                     values = c('#000000', unname(brookings_cols('THP_orange')) )) +
+  theme(axis.ticks.y.right = element_line(color = unname(brookings_cols('THP_orange'))),
+        axis.text.y.right = element_text(color = unname(brookings_cols('THP_orange'))),
+        axis.title.y.right = element_text(color = unname(brookings_cols('THP_orange')))
+  ) +
+  scale_y_continuous('Percentage change from 2019',
+                     sec.axis = sec_axis(~(. - a) / b, name = 'Employment (millions)')) +
+  annotate('text',
+           x = as_date('2021-09-01'),
+           y = -16,
+           label = 'Sept. 7',
+           size = 6) +
+  scale_x_date(date_labels = '%b\n%Y',
+               date_breaks = '2 months',
+               limits = c(as_date('2020-06-01'), as_date('2021-09-07')),
+               expand = expansion()) +
+  guides(color = guide_legend(
+    override.aes = list(shape = c(NA, 16)))) +
+  theme(legend.position = 'bottom')
+
 
 path <- 'figures/fig9'
 
