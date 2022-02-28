@@ -30,14 +30,6 @@ data <- path %>%
   map(read_excel, path = path) %>%
   map(.f = rename_dates, .x = .)
 
-walk2(.x = names(data),
-      .y = data,
-      ~writeData(wb,
-                 sheet = .x,
-                 x = .y))
-
-
-
 # Figure 1 ------------------------------------------------------------------------------------
 
 #Create data to plot
@@ -103,8 +95,8 @@ timeline %>%
        y = NULL) -> p1
 
 #and run the function from above
-shift_axis(p1, ymd(20191229), ymd(20200910))
-
+p1_shifted <- shift_axis(p1, ymd(20191229), ymd(20200910))
+p1_shifted
 path <- 'figures/fig1'
 ggsave(glue::glue("{path}.pdf"), width = 7, height = 5, device = cairo_pdf,  units = 'in', dpi = 300, bg = '#FFFFFF')
 
@@ -143,7 +135,7 @@ snapshot <- function(adp_until = '2020-03-24', bls_until = '2020-02-15', subtitl
                             size = c(2, 6)))) +
       scale_x_date(limits = c(as_date('2020-01-31'), as_date('2020-05-02'))) +
       scale_y_continuous(breaks = seq(4, -28, by = -4),
-                         limits = c(-28, 4)) +
+                         limits = c(-28, 1)) +
 
       labs(x = subtitle,y = 'Millions of jobs (Change since Feb. 15)',
            title = '<br>')
@@ -162,7 +154,7 @@ snapshot <- function(adp_until = '2020-03-24', bls_until = '2020-02-15', subtitl
                  fill = NA) +
       scale_x_date(limits = c(as_date('2020-01-31'), as_date('2020-05-02'))) +
       scale_y_continuous(breaks = seq(4, -28, by = -4),
-                         limits = c(-28, 4)) +
+                         limits = c(-28, 1)) +
 
       labs(x = subtitle,y = 'Millions of jobs (Change since Feb. 15)', title = '<br>') +
       guides(fill = guide_legend(
@@ -203,8 +195,12 @@ l3 <- snapshot(adp_until = '2020-05-20',
 
 
 
-(p1 + p2 + p3 + plot_layout(guides='collect') & theme(legend.position = 'none', )) / (l1 + l2 + l3 + plot_layout(guides='collect') & theme(legend.position = 'bottom'))
+p <- (p1 + p2 + p3) + plot_layout(guides='collect') & theme(legend.position = 'none')
 
+
+l <- (l1 + l2 + l3) + plot_layout(guides='collect') & theme(legend.position = 'none')
+
+p / l
 
 path <- 'figures/fig2'
 ggsave(glue::glue("{path}.pdf"), width = 6, height = 5, device = cairo_pdf, units = 'in', dpi = 300)
@@ -286,7 +282,7 @@ p1 <- data$figure4 %>%
   scale_y_continuous(breaks = seq(-24, 8, by = 4),
                      limits = c(-24, 8), expand = expansion()) +
   labs(x = NULL,
-       y = NULL) +
+       y = 'Millions of jobs (monthly change)') +
   geom_hline(yintercept = 0) +
   theme(legend.position = 'bottom',
         legend.direction = 'horizontal')
@@ -338,7 +334,7 @@ p2 <- data$figure5_2 %>%
                      expand = expansion()) +
   scale_x_date(limits = c(as_date('2020-03-01'), as_date('2020-07-02')), date_labels = "%b\n%Y", date_breaks = '1 month', expand = expansion()) +
   labs(x = NULL,
-       y = "Millions") +
+       y = "Millions of turnstile entries") +
   theme(plot.margin = margin(0, 7, 0, 7))
 
 
@@ -435,7 +431,7 @@ ggplot(data = data$figure7_1,
   theme(legend.position = 'bottom')
 
 path <- 'figures/fig7'
-ggsave(glue::glue("{path}.pdf"), width = 4.5, height = 3, device = cairo_pdf)
+ggsave(glue::glue("{path}.pdf"), width = 4.5, height = 3.5, device = cairo_pdf)
 
 # Figure 8 ------------------------------------------------------------------------------------
 
@@ -452,7 +448,7 @@ data$figure8_1 %>%
   scale_color_manual(values = unname(brookings_cols('THP_ltblue', 'THP_dkgreen', 'THP_purple')),
                     labels = c('Remote', 'Hybrid', 'In-person') ) +
   labs(x = NULL,
-       y = 'Percent') +
+       y = 'Percent of students') +
   theme(legend.position = 'bottom',
         legend.text = element_text(size = 6),
         legend.key.size = unit(0.2, "cm")) -> p1
@@ -472,7 +468,7 @@ data$figure8_2 %>%
         legend.text = element_text(size = 6),
         legend.key.size = unit(0.2, "cm")) +
   labs(x = NULL,
-       y = 'Percent change from February 2020') -> p2
+       y = 'Percent change in key card entries from February 2020') -> p2
 
 p1 | p2
 
@@ -517,7 +513,7 @@ ggplot() +
         axis.text.y.right = element_text(color = unname(brookings_cols('THP_orange'))),
         axis.title.y.right = element_text(color = unname(brookings_cols('THP_orange')))
   ) +
-  scale_y_continuous('Percentage change from 2019',
+  scale_y_continuous('Percent change in reservations from 2019',
                      sec.axis = sec_axis(~(. - a) / b, name = 'Employment (millions)')) +
   annotate('text',
            x = as_date('2021-09-01'),
@@ -531,7 +527,8 @@ ggplot() +
   guides(color = guide_legend(
     reverse = TRUE,
     override.aes = list(shape = c(NA, 16)))) +
-  theme(legend.position = 'bottom') +
+  theme(legend.position = 'bottom',
+        axis.ticks.y.right = element_blank()) +
   labs(x = NULL)
 
 
@@ -595,7 +592,9 @@ data$figure11 %>% pivot_longer(-c(week_num, date)) %>%
   scale_x_date(date_labels = '%b',
                date_breaks = '1 month',
                expand = expansion()) +
-  scale_y_continuous(expand = expansion()) +
+  scale_y_continuous(expand = expansion(),
+                     limits = c(0, 550),
+                     breaks = seq(0, 550, by = 100)) +
   labs(x = NULL,
        y = '(Thousands)') +
   theme(legend.position = 'bottom')
