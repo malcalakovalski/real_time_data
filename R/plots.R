@@ -198,7 +198,7 @@ l3 <- snapshot(adp_until = '2020-05-20',
 p <- (p1 + p2 + p3) + plot_layout(guides='collect') & theme(legend.position = 'none')
 
 
-l <- (l1 + l2 + l3) + plot_layout(guides='collect') & theme(legend.position = 'none')
+l <- (l1 + l2 + l3) + plot_layout(guides='collect')
 
 p / l
 
