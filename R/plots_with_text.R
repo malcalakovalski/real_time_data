@@ -393,7 +393,7 @@ data$figure6_1 %>%
   labs(x = NULL,
        y = "Week ending February 15, 2020 = 100",
        title = 'Figure 6a.<br>ADP-FRB Employment by Wage Quartile',
-       caption = "Source: ADP, Inc. 2020 to 2021; authors' calculations.") +
+       caption = "Source: ADP, Inc. 2020 to 2021; Opportunity Insights 2020 to 2021 via Affinity; authors' calculations <br>Note: Seasonally adjusted seven-day moving averages are shown.") +
   guides(color = guide_legend(
     nrow = 2,
     ncol = 2)) +
@@ -414,7 +414,7 @@ data$figure6_2 %>%
   labs(x = NULL,
        y = "Percent change from January 2020",
        title = '<br>Figure 6b.<br>Affinity Consumer Spending by Income<br>',
-       caption = 'Source: Affinity (Opportunity Insights; 2020-2021).<br>Note: Seasonally adjusted seven-day moving averages are shown.') +
+       caption = "") +
   theme(plot.title = element_textbox_simple(color = 'black', size = 12)) -> p2
 # Figure 6. Employment and Consumer Spending by Income, Indexed to February 2020
 
