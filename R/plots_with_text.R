@@ -532,7 +532,7 @@ scales::rescale(x = data$figure9_2$lh_emp,
 
 
 ylim.prim <- c(-80, 20)
-ylim.sec <- c(12, 16)
+ylim.sec <- c(12, 17)
 
 b <- diff(ylim.prim)/diff(ylim.sec)
 a <- ylim.prim[1] - b*ylim.sec[1]
@@ -561,7 +561,7 @@ ggplot() +
                      sec.axis = sec_axis(~(. - a) / b, name = 'Employment (millions)')) +
   annotate('text',
            x = as_date('2021-09-01'),
-           y = -16,
+           y = -18,
            label = 'Sept. 7',
            size = 6) +
   scale_x_date(date_labels = '%b\n%Y',
@@ -570,7 +570,7 @@ ggplot() +
                expand = expansion()) +
   guides(color = guide_legend(
     reverse = TRUE,
-    override.aes = list(shape = c(NA, 16)))) +
+    override.aes = list(shape = c(NA, 18)))) +
   theme(legend.position = 'bottom',
         axis.ticks.y.right = element_blank()) +
   labs(x = NULL,
@@ -599,7 +599,7 @@ data$figure10_1 %>%
   labs(x =  NULL,
        y = 'Percent of businesses',
        title = 'Figure 10a.<br>Share of Businesses with No Transactions<br>',
-       caption = '<br>Source: Womply (Opportunity Insights; 2020-2021).<br>Note: The sample is limited to businesses with a transaction on February 15, 2020.') +
+       caption = '<br>Source:Opportunity Insights 2020 to 2021 via Womply; Homebase 2020 to 2021<br>Note: The sample is limited to businesses with a clock-in on February 15, 2020 and businesses with a transaction on February 15, 2020.') +
   theme(legend.position = 'bottom',
         plot.title = element_textbox_simple(size = 12, color = 'black')) +
   # theme(legend.key.size = unit(0.25,"line")) +
@@ -622,7 +622,7 @@ data$figure10_2 %>%
   labs(x =  NULL,
        y = NULL,
        title = 'Figure 10b.<br>Share of Businesses with No Clock-Ins<br>',
-       caption = '<br>Source: Homebase (2020-2021)<br>Note: The sample is limited to businesses with a clock-in on February 15, 2020.') +
+       caption = '') +
   theme(
         axis.text.y = element_blank(),
         plot.title = element_textbox_simple(size = 12, color = 'black')) -> p2
