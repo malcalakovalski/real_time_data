@@ -37,9 +37,10 @@ timeline <- tribble( ~start_date, ~event, ~displ, ~Category,
                      ymd(20200121), "First reported Covid case in U.S. (1/21)", 1.3, "News",
                      ymd(20200123), "China lockdown (1/23)",1.2,"News",
                      ymd(20200222), "Italy lockdown (2/22)", 1.1, "News",
-                     ymd(20200303), "Fed emergency rate cut by 1/2 ppt (3/3)", -1, "Monetary policy actions",
+                     ymd(20200303), "Fed emergency rate cut by 1/2 percentage point (3/3)", -1, "Monetary policy actions",
                      ymd(20200313), "President declares national emergency (3/13)",-0.9,"Fiscal policy actions",
-                     ymd(20200315), "Fed emergency rate cut to 0 pct (3/15)", -0.8, "Monetary policy actions",
+                     ymd(20200315), "Fed emergency rate cut to 0 percent (3/15)", -0.8, "Monetary policy actions",
+                     ymd(20200315), "Large-scale asset purchases (3/15)", -0.8, "Monetary policy actions",
                      ymd(20200317), "First announcement of new Fed facilities (3/17)", -0.7, "Monetary policy actions",
                      ymd(20200319), "First state-wide lockdown order in U.S. (3/19)", 1, "News",
                      ymd(20200319), "Opening discussion of CARES act (3/19)", -0.6, "Fiscal policy actions",
@@ -48,6 +49,7 @@ timeline <- tribble( ~start_date, ~event, ~displ, ~Category,
                      ymd(20200409), "Last announcement of new Fed facilities (4/9)", -0.4, "Monetary policy actions",
                      ymd(20200413), "First stimulus checks/UI go out (4/13)", -0.3, "Fiscal policy actions",
                      ymd(20200415), "March retail sales report (4/15)", 0.8, "Data releases",
+                     ymd(20200424), "PPP and Health Care Enhancement Act (4/24)", 0.8, "Fiscal policy actions",
                      ymd(20200508), "April employment situation (5/8)",0.7, "Data releases",
                      ymd(20200515), "April retail sales report (5/15)", 0.6, "Data releases",
                      ymd(20200528), "U.S. death toll surpasses 100,000 (5/28)",0.5,"News",
@@ -96,7 +98,7 @@ timeline %>%
 
 #and run the function from above
 p1_shifted <- shift_axis(p1, ymd(20191229), ymd(20200910))
-p1_shifted
+p1_shifted<-p1_shifted+labs(fill = "")
 path <- 'figures/fig1'
 ggsave(glue::glue("{path}.pdf"), width = 7, height = 5, device = cairo_pdf,  units = 'in', dpi = 300, bg = '#FFFFFF')
 
