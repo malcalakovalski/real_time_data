@@ -359,7 +359,7 @@ p2 <- data$figure5_2 %>%
   scale_y_continuous(breaks = seq(0, 40, 5),
                      limits = c(0, 36),
                      expand = expansion()) +
-  scale_x_date(limits = c(as_date('2020-03-01'), as_date('2020-07-02')), date_labels = "%b\n%Y", date_breaks = '1 month', expand = expansion()) +
+  scale_x_date(limits = c(as_date('2020-02-15'), as_date('2020-07-02')), date_labels = "%b\n%Y", date_breaks = '1 month', expand = expansion()) +
   labs(x = NULL,
        y = "Millions of turnstile entries",
        title = 'Figure 5b.<br>Weekly New York City Subway Turnstile Entries<br>',
