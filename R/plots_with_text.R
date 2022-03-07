@@ -502,7 +502,7 @@ data$figure8_2 %>%
   drop_na() %>%
   ggplot(aes(x = date, y = value, color = name)) +
   geom_line(size = 0.5) +
-  scale_x_date(limits = c(as_date('2020-04-01'), as_date('2021-10-30')), date_labels = "%b\n%Y", date_breaks = '2 month', expand = expansion()) +
+  scale_x_date(limits = c(as_date('2020-03-01'), as_date('2021-10-30')), date_labels = "%b\n%Y", date_breaks = '2 month', expand = expansion()) +
   scale_y_continuous(expand = expansion(),
                      breaks = seq(0, 55, 10),
                      limits = c(0, 55)) +
