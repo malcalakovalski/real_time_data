@@ -325,7 +325,7 @@ p2 <-data$figure4 %>%
 
 fig_number = 'Figure 4.'
 title = 'Timing of ADP-FRB and BLS CES Employment Data Releases for Change in Employment, March 2020-September 2021'
-caption = "Source: ADP, Inc. (2020-2021), BLS CES(2020-2021); authors' calculations<br>Note: For ADP-FRB, paid employment concept is plotted."
+caption = "Source: ADP, Inc. 2020 to 2021; BLS CES 2020 to 2021; authors' calculations<br>Note: For ADP-FRB, paid employment concept is plotted."
 
 p1 + p2 + plot_annotation(title = glue('{fig_number}<br>{title}'),
                           caption = glue('{caption}')) + plot_layout(guides='collect') & theme(legend.position = 'bottom')
