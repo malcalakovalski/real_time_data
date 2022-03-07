@@ -492,7 +492,7 @@ data$figure8_1 %>%
   labs(x = NULL,
        y = 'Percent of students in public K-12 schools',
        title = '<br>Figure 8a.<br>Distribution of Students by School Instruction Modes, August 2020-June 2021<br>',
-       caption = 'Source: Burbio, Inc. 2020 to 2021')  -> p1
+       caption = '<br>Source: Burbio, Inc. 2020 to 2021;Kastle Systems 2020 to 2021<br>Note: Based on employee key card entries into office buildings. 7-day average through Jan. 6, 2021 and weekly readings thereafter.')  -> p1
 
 
 
@@ -512,7 +512,7 @@ data$figure8_2 %>%
   labs(x = NULL,
        y = 'Percent of key card entries relative to February 2020',
        title = '<br>Figure 8b.<br>Kastle Key Card Office Building Entries, April 2020-October 2021<br>',
-caption = "Source: Kastle Systems 2020-2021<br>Note: Based on employee key card entries into office buildings. 7-day average through Jan. 6, 2021 and weekly readings thereafter.") -> p2
+caption = "") -> p2
 
 p1 + p2 + plot_annotation(title = 'Figure 8.<br>School Instruction Mode and Keycard Office Entries, 2020-21')
 
