@@ -258,7 +258,7 @@ snapshot2 <- function(census_until = '2020-03-01', alt_until = '2020-03-31',
     geom_point(size = 1.5) +
 
     scale_color_manual(values = unname(brookings_cols("THP_dkblue","THP_green", "THP_ltblue", "THP_yellow", "THP_purple", "THP_orange")),
-                       labels = c('Airport departures', 'Census food services & drinking places', 'Census retail sales', 'Fiserv retail sales', 'Restaurants rsvs')) +
+                       labels = c('Airport departures', 'Census food services & drinking places', 'Census retail sales', 'Fiserv retail sales', 'Restaurants reservations')) +
     scale_y_continuous(breaks = seq(-100, 30, 20),
                        limits = c(-100, 30)) +
     scale_x_date(limits = c(as_date('2020-01-01'), as_date('2020-05-20'))) +
@@ -284,8 +284,8 @@ p3 <- snapshot2(census_until = '2020-05-31',
   theme(axis.text.y = element_blank())
 
 
-p1 + p2 + p3 + plot_annotation(title = 'Figure 3.<br>Timing of Consumer Spending Data Releases for Percent Change in Retail Sales, Restaurant Reservations, and Airport Departments from 2019, January-May 2020',
-                               caption = 'Source: Census Bureau (2020); Fiserv (2020), OpenTable (2020), TSA (2020).<br>Note: Airport departures, restaurant reservations, and Fiserv retail sales are seven-day moving averages.')+  plot_layout(guides='collect') & theme(legend.position = 'bottom')
+p1 + p2 + p3 + plot_annotation(title = 'Figure 3.<br>Snapshots of Consumer Spending (percent change from same period in 2019)',
+                               caption = 'Source: Census Bureau 2020; Fiserv 2020; OpenTable 2020; Transportation Security Administration 2020;<br>Note: Airport departures, restaurant reservations, and Fiserv retail sales are seven-day moving averages.')+  plot_layout(guides='collect') & theme(legend.position = 'bottom')
 
 path <- 'figures-with-text/fig3'
 ggsave(glue::glue("{path}.pdf"), width = 8, height = 8, device = cairo_pdf, units = 'in', dpi = 300)
@@ -311,7 +311,7 @@ p1 <- data$figure4 %>%
 p2 <-data$figure4 %>%
   select(date, ends_with('leisure')) %>%
   ggplot(aes(x = date, lty = 'ADP-FRB')) +
-  geom_line(aes(y = adp_frb_leisure), color = '#999999') +
+  geom_line(aes(y = adp_frb_leisure), color = '#666666') +
   geom_point(aes(y = bls_ces_leisure, fill = 'BLS-CES'),
              color = unname(brookings_cols('THP_orange'))) +
   scale_x_date(limits = c(as_date('2020-01-30'), as_date('2021-10-02')), date_labels = "%b\n%Y", date_breaks = '3 month') +
@@ -325,7 +325,7 @@ p2 <-data$figure4 %>%
 
 fig_number = 'Figure 4.'
 title = 'Timing of ADP-FRB and BLS CES Employment Data Releases for Change in Employment, March 2020-September 2021'
-caption = "Source: ADP, Inc. (2020-2021), BLS CES(2020-2021); authors' calculations"
+caption = "Source: ADP, Inc. (2020-2021), BLS CES(2020-2021); authors' calculations<br>Note: For ADP-FRB, paid employment concept is plotted."
 
 p1 + p2 + plot_annotation(title = glue('{fig_number}<br>{title}'),
                           caption = glue('{caption}')) + plot_layout(guides='collect') & theme(legend.position = 'bottom')
@@ -392,7 +392,7 @@ data$figure6_1 %>%
                      limits = c(65, 105)) +
   labs(x = NULL,
        y = "Week ending February 15, 2020 = 100",
-       title = 'Figure 6a.<br>ADP Employment by Wage Quartile',
+       title = 'Figure 6a.<br>ADP-FRB Employment by Wage Quartile',
        caption = "Source: ADP (2020-2021); authors' calculations.") +
   guides(color = guide_legend(
     nrow = 2,
