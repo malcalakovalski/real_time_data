@@ -215,14 +215,15 @@ l3 <- snapshot(adp_until = '2020-05-20',
 
 p <- ((p1 + p2 + p3 + plot_layout(guides='collect') & theme(legend.position = 'none',
                                                             plot.title = element_textbox_simple(color = 'black', size = 12))) + plot_annotation(
-                                                              title = 'Figure 2a.<br>Timing of ADP and BLS Private Paid Employment Data Releases'))
+                                                              title = 'Figure 2a.<br>Timing of ADP, LLP and BLS CES Private Paid Employment Data Releases'))
 
 l <- (l1 + l2 + l3 + plot_layout(guides='collect') & theme(legend.position = 'none',
                                                            plot.title = element_textbox_simple(color = 'black', size = 12))) + plot_annotation(
-                                                             title = 'Figure 2b.<br>Timing of ADP and BLS Leasure and Hospitality Data Releases'
+                                                             title = 'Figure 2b.<br>Timing of ADP, LLP and BLS CES Leasure and Hospitality Data Releases',
+                                                              
                                                            )
 
-(wrap_elements(panel = p) +   ggtitle('Figure 2.<br>Timing of ADP and BLS Employment Data Releases for Change in Employment Relative to February 15, 2020, February-May 2020'))/ wrap_elements(panel = l)
+(wrap_elements(panel = p) +   ggtitle('Figure 2.<br>Snapshots of Employment Data'))/ wrap_elements(panel = l)+caption="Source: ADP, Inc. (2020-2021), BLS CES(2020-2021); authors' calculations<br>Note:For ADP-FRB, paid  employment concept is plotted."
 
 path <- 'figures-with-text/fig2'
 ggsave(glue::glue("{path}.pdf"), width = 8, height = 10, device = cairo_pdf, units = 'in', dpi = 300)
@@ -323,8 +324,8 @@ p2 <-data$figure4 %>%
         legend.direction = 'horizontal')
 
 fig_number = 'Figure 4.'
-title = 'Timing of ADP and BLS Employment Data Releases for Change in Employment, March 2020-September 2021'
-caption = "Source: ADP (2020-2021), BLS (2020-2021); authors' calculations"
+title = 'Timing of ADP-FRB and BLS CES Employment Data Releases for Change in Employment, March 2020-September 2021'
+caption = "Source: ADP, Inc. (2020-2021), BLS CES(2020-2021); authors' calculations"
 
 p1 + p2 + plot_annotation(title = glue('{fig_number}<br>{title}'),
                           caption = glue('{caption}')) + plot_layout(guides='collect') & theme(legend.position = 'bottom')
