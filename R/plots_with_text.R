@@ -393,7 +393,7 @@ data$figure6_1 %>%
   labs(x = NULL,
        y = "Week ending February 15, 2020 = 100",
        title = 'Figure 6a.<br>ADP-FRB Employment by Wage Quartile',
-       caption = "Source: ADP, Inc. 2020 to 2021; Opportunity Insights 2020 to 2021 via Affinity; authors' calculations <br>Note: Seasonally adjusted seven-day moving averages are shown.") +
+       caption = "<br>Source: ADP, Inc. 2020 to 2021; Opportunity Insights 2020 to 2021 via Affinity; authors' calculations <br>Note: Seasonally adjusted seven-day moving averages are shown.") +
   guides(color = guide_legend(
     nrow = 2,
     ncol = 2)) +
