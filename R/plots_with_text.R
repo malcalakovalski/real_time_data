@@ -349,7 +349,7 @@ p1 <- data$figure5_1 %>%
   labs(x = NULL,
        y = "Cases per one million people",
        title = 'Figure 5a.<br>COVID-19 Case Rates by Location<br>',
-       caption = 'Source: New York Times (n.d.)<br>Note: Seven-day moving averages are depicted.') +
+       caption = '') +
   theme(plot.title = element_textbox_simple(color = 'black', size = 12))
 
 p2 <- data$figure5_2 %>%
@@ -359,11 +359,11 @@ p2 <- data$figure5_2 %>%
   scale_y_continuous(breaks = seq(0, 40, 5),
                      limits = c(0, 36),
                      expand = expansion()) +
-  scale_x_date(limits = c(as_date('2020-02-15'), as_date('2020-07-02')), date_labels = "%b\n%Y", date_breaks = '1 month', expand = expansion()) +
+  scale_x_date(limits = c(as_date('2020-02-01'), as_date('2020-07-02')), date_labels = "%b\n%Y", date_breaks = '1 month', expand = expansion()) +
   labs(x = NULL,
        y = "Millions of turnstile entries",
        title = 'Figure 5b.<br>Weekly New York City Subway Turnstile Entries<br>',
-              caption = 'Source: Metropolitan Transportation Authority.<br>Note: Weekly estimates are seasonally adjusted.')  +
+              caption = 'Source: Metropolitan Transportation Authority 2020; New York Times (n.d.)<br>Note: Seven-day moving averages of COVID-19 data are depicted.Weekly estimates of transportation data are seasonally adjusted.')  +
   theme(plot.title = element_textbox_simple(color = 'black', size = 12),
         legend.key.size = unit(0, 'in'),
         legend.text = element_text(color = NA))
