@@ -257,7 +257,7 @@ snapshot2 <- function(census_until = '2020-03-01', alt_until = '2020-03-31',
     geom_line(size = 1) +
     geom_point(size = 1.5) +
 
-    scale_color_manual(values = unname(brookings_cols("THP_dkblue","THP_green", "THP_ltblue", "THP_yellow", "THP_purple", "THP_orange")),
+    scale_color_manual(values = unname(brookings_cols("THP_dkblue","THP_green", "THP_ltpurple", "THP_yellow", "THP_purple", "THP_orange")),
                        labels = c('Airport departures', 'Census food services & drinking places', 'Census retail sales', 'Fiserv retail sales', 'Restaurants reservations')) +
     scale_y_continuous(breaks = seq(-100, 30, 20),
                        limits = c(-100, 30)) +
