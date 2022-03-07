@@ -99,6 +99,7 @@ timeline %>%
 #and run the function from above
 p1_shifted <- shift_axis(p1, ymd(20191229), ymd(20200910))
 p1_shifted<-p1_shifted+labs(fill = "")
+p1_shifted
 path <- 'figures/fig1'
 ggsave(glue::glue("{path}.pdf"), width = 7, height = 5, device = cairo_pdf,  units = 'in', dpi = 300, bg = '#FFFFFF')
 
