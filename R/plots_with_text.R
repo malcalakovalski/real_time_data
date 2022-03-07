@@ -647,7 +647,7 @@ data$figure11 %>% pivot_longer(-c(week_num, date)) %>%
                      limits = c(0, 550),
                      breaks = seq(0, 550, by = 100)) +
   labs(x = NULL,
-       y = '(Thousands)') +
+       y = 'Applications in thousands') +
   theme(legend.position = 'bottom')  +
   labs(title = 'Figure 11.<br>Cumulative New Business Applications, Select Years',
        caption = 'Source: Census Bureau 2017 to 2021.<br>Note: Business applications with planned paid employees.')
