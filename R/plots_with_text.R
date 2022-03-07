@@ -342,7 +342,7 @@ p1 <- data$figure5_1 %>%
   geom_line() +
   scale_color_manual(values = unname(brookings_cols('THP_purple', 'THP_ltgreen')),
                      labels = c('NY-NJ-CT', 'Other states')) +
-  scale_x_date(limits = c(as_date('2020-02-01'), as_date('2020-07-05')), date_labels = "%b\n%Y", date_breaks = '1 month', expand = expansion()) +
+  scale_x_date(limits = c(as_date('2020-03-01'), as_date('2020-07-05')), date_labels = "%b\n%Y", date_breaks = '1 month', expand = expansion()) +
   scale_y_continuous(breaks = seq(0, 500, 100),
                      limits = c(0, 500),
                      expand = expansion()) +
@@ -359,7 +359,7 @@ p2 <- data$figure5_2 %>%
   scale_y_continuous(breaks = seq(0, 40, 5),
                      limits = c(0, 36),
                      expand = expansion()) +
-  scale_x_date(limits = c(as_date('2020-02-01'), as_date('2020-07-02')), date_labels = "%b\n%Y", date_breaks = '1 month', expand = expansion()) +
+  scale_x_date(limits = c(as_date('2020-03-01'), as_date('2020-07-02')), date_labels = "%b\n%Y", date_breaks = '1 month', expand = expansion()) +
   labs(x = NULL,
        y = "Millions of turnstile entries",
        title = 'Figure 5b.<br>Weekly New York City Subway Turnstile Entries<br>',
