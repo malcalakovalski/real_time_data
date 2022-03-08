@@ -493,7 +493,7 @@ data$figure8_1 %>%
   labs(x = NULL,
        y = 'Percent of students in public K-12 schools',
        title = '<br>Figure 8a.<br>Distribution of Students by School Instruction Modes, August 2020-June 2021<br>',
-       caption = '<br>Source: Burbio, Inc. 2020 to 2021;Kastle Systems 2020 to 2021<br>Note: Based on employee key card entries into office buildings. 7-day average through Jan. 6, 2021 and weekly readings thereafter.')  -> p1
+       caption = '<br>Source: Burbio, Inc. 2020 to 2021;Kastle Systems 2020 to 2021<br>Note: Based on employee key card entries into office buildings. 7-day average through Jan. 6, 2021 and weekly readings thereafter.<br><br>')  -> p1
 
 
 
@@ -503,7 +503,7 @@ data$figure8_2 %>%
   drop_na() %>%
   ggplot(aes(x = date, y = value, color = name)) +
   geom_line(size = 0.5) +
-  scale_x_date(limits = c(as_date('2020-03-01'), as_date('2021-10-30')), date_labels = "%b\n%Y", date_breaks = '2 month', expand = expansion()) +
+  scale_x_date(limits = c(as_date('2020-03-01'), as_date('2021-10-30')), date_labels = "%b\n%Y", date_breaks = '3 month', expand = expansion()) +
   scale_y_continuous(expand = expansion(),
                      breaks = seq(0, 55, 10),
                      limits = c(0, 55)) +
@@ -518,7 +518,7 @@ caption = "") -> p2
 p1 + p2 + plot_annotation(title = 'Figure 8.<br>School Instruction Mode and Keycard Office Entries, 2020-21')
 
 path <- 'figures-with-text/fig8'
-ggsave(glue::glue("{path}.pdf"), width = 4.5, height = 7, device = cairo_pdf)
+ggsave(glue::glue("{path}.pdf"), width = 4.5, height = 5, device = cairo_pdf)
 
 # Figure 9 ------------------------------------------------------------------------------------
 
