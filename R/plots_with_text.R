@@ -599,9 +599,10 @@ data$figure10_1 %>%
   labs(x =  NULL,
        y = 'Percent of businesses',
        title = 'Figure 10a.<br>Share of Businesses with No Transactions<br>',
-       caption = '<br>Source:Opportunity Insights 2020 to 2021 via Womply; Homebase 2020 to 2021<br>Note: The sample is limited to businesses with a clock-in on February 15, 2020 and businesses with a transaction on February 15, 2020.') +
+       caption = 'Source: Opportunity Insights 2020 to 2021 via Womply; Homebase 2020 to 2021<br>Note: The sample is limited to businesses with a clock-in on February 15, 2020 and businesses with a transaction on February 15, 2020.') +
   theme(legend.position = 'bottom',
-        plot.title = element_textbox_simple(size = 12, color = 'black')) +
+        plot.title = element_textbox_simple(size = 10, color = 'black'),
+        plot.caption = element_textbox_simple(size=4,color="black")) +
   # theme(legend.key.size = unit(0.25,"line")) +
   guides(color = guide_legend(nrow = 2,
                               ncol = 2)) -> p1
@@ -631,7 +632,7 @@ data$figure10_2 %>%
 p1 + p2 + plot_annotation(title = 'Figure 10.<br>Measures of Small Business Closures')
 
 path <- 'figures-with-text/fig10'
-ggsave(glue::glue("{path}.pdf"), width = 4.5, height = 7.5, device = cairo_pdf)
+ggsave(glue::glue("{path}.pdf"), width = 4.5, height = 4, device = cairo_pdf)
 
 # Figure 11 -----------------------------------------------------------------------------------
 
