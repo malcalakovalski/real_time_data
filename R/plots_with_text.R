@@ -349,8 +349,8 @@ p1 <- data$figure5_1 %>%
   labs(x = NULL,
        y = "Cases per one million people",
        title = 'Figure 5a.<br>COVID-19 Case Rates by Location<br>',
-       caption = '<br>Source: Metropolitan Transportation Authority 2020; New York Times (n.d.)<br>Note: Seven-day moving averages of COVID-19 data are depicted.Weekly estimates of transportation data are seasonally adjusted.') +
-  theme(plot.title = element_textbox_simple(color = 'black', size = 12))
+       caption = '<br>Source: Metropolitan Transportation Authority 2020; New York Times (n.d.)<br>Note: Seven-day moving averages of COVID-19 data are depicted.Weekly estimates of transportation data are seasonally adjusted.<br>') +
+  theme(plot.title = element_textbox_simple(color = 'black', size = 12), plot.caption = element_textbox_simple(size=3,color="black"))
 
 p2 <- data$figure5_2 %>%
   ggplot(aes(x = date, y = ny_riders, fill = ny_riders)) +
@@ -373,7 +373,7 @@ title = 'COVID-19 Case Rates and New York City Subway Turnstiles Entries, March-
 p1 + p2 + plot_annotation(title = glue('{fig_number}<br>{title}'))
 
 path <- 'figures-with-text/fig5'
-ggsave(glue::glue("{path}.pdf"), width = 9, height = 8, device = cairo_pdf)
+ggsave(glue::glue("{path}.pdf"), width = 4.5, height = 5, device = cairo_pdf)
 # Figure 6 ------------------------------------------------------------------------------------
 
 
@@ -386,7 +386,7 @@ data$figure6_1 %>%
   scale_color_manual(values = unname(brookings_cols("THP_dkblue","THP_green", "THP_ltblue", "THP_yellow")),
                      labels = c('Bottom', 'Bottom-middle', 'Top-middle', 'Top')
   ) +
-  scale_x_date(limits = c(as_date('2020-02-01'), as_date('2021-11-30')), date_labels = "%b\n%Y", date_breaks = '3 month', expand = expansion()) +
+  scale_x_date(limits = c(as_date('2020-02-01'), as_date('2021-11-30')), date_labels = "%b\n%Y", date_breaks = '4 month', expand = expansion()) +
   scale_y_continuous(expand = expansion(),
                      breaks = seq(60, 105, 10),
                      limits = c(65, 105)) +
@@ -406,7 +406,7 @@ data$figure6_2 %>%
   ggplot(aes(x = date, y = value, color = name)) +
   geom_line(size = 0.5) +
   scale_color_manual(values = unname(brookings_cols('THP_ltblue', 'THP_orange', 'THP_ltgreen')), labels = c('Low', 'Middle', 'High')) +
-  scale_x_date(limits = c(as_date('2020-01-01'), as_date('2021-11-30')), date_labels = "%b\n%Y", date_breaks = '3 month', expand = expansion()) +
+  scale_x_date(limits = c(as_date('2020-01-01'), as_date('2021-11-30')), date_labels = "%b\n%Y", date_breaks = '4 month', expand = expansion()) +
   scale_y_continuous(expand = expansion(),
                      breaks = seq(-40, 40, 10),
                      limits = c(-40, 40)) +
@@ -422,7 +422,7 @@ data$figure6_2 %>%
 p1 + p2 + plot_annotation(title = 'Figure 6.<br>Employment and Consumer Spending by Income, Indexed to February 2020')
 
 path <- 'figures-with-text/fig6'
-ggsave(glue::glue("{path}.pdf"), width = 8.5, height = 8, device = cairo_pdf)
+ggsave(glue::glue("{path}.pdf"), width = 4.5, height = 5, device = cairo_pdf)
 # Figure 7 ------------------------------------------------------------------------------------
 
 # Tibble used to shade dates when stimulus checks were sent out
