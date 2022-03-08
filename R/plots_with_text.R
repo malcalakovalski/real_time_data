@@ -602,7 +602,7 @@ data$figure10_1 %>%
        caption = 'Source: Opportunity Insights 2020 to 2021 via Womply; Homebase 2020 to 2021<br>Note: The sample is limited to businesses with a clock-in on February 15, 2020 and businesses with a transaction on February 15, 2020.') +
   theme(legend.position = 'bottom',
         plot.title = element_textbox_simple(size = 10, color = 'black'),
-        plot.caption = element_textbox_simple(size=4,color="black")) +
+        plot.caption = element_textbox_simple(size=3,color="black")) +
   # theme(legend.key.size = unit(0.25,"line")) +
   guides(color = guide_legend(nrow = 2,
                               ncol = 2)) -> p1
