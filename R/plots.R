@@ -199,14 +199,14 @@ l3 <- snapshot(adp_until = '2020-05-20',
 
 
 p <- (p1 + p2 + p3) + plot_layout(guides='collect') & theme(legend.position = ("top"),
-                                                            plot.title = element_textbox_simple(color = 'black', size = 12))) + plot_annotation(
+                                                            plot.title = element_textbox_simple(color = 'black', size = 12) + plot_annotation(
                                                               title = 'Figure 2a.<br>Timing of ADP-FRB, LLP and BLS CES Private Paid Employment Data Releases'))
 
 l <- (l1 + l2 + l3 + plot_layout(guides='collect') & theme(legend.position = 'none',
-                                                           plot.title = element_textbox_simple(color = 'black', size = 12))) + plot_annotation(
+                                                           plot.title = element_textbox_simple(color = 'black', size = 12) + plot_annotation(
                                                              title = 'Figure 2b.<br>Timing of ADP-FRB, LLP and BLS CES Leasure and Hospitality Data Releases',
                                                               
-                                                           )
+                                                           ))
 
 
 p / l + ggtitle('Figure 2.<br>Snapshots of Employment Data'))/ wrap_elements(panel = l)+labs(caption="Source: ADP, Inc. (2020-2021), BLS CES(2020-2021); authors' calculations<br>Note:For ADP-FRB, paid  employment concept is plotted.")
@@ -335,7 +335,7 @@ p1 <- data$figure5_1 %>%
                      limits = c(0, 500),
                      expand = expansion()) +
   labs(x = NULL,
-       y = "Cases per one million people") 
+       y = "Cases per one million people",
  title = 'Figure 5a.<br>COVID-19 Case Rates by Location<br>',
        caption = '<br>Source: Metropolitan Transportation Authority 2020; New York Times (n.d.)<br>Note: Seven-day moving averages of COVID-19 data are depicted.Weekly estimates of transportation data are seasonally adjusted.') +
   theme(legend.position = 'bottom',
@@ -350,7 +350,7 @@ p2 <- data$figure5_2 %>%
                      expand = expansion()) +
   scale_x_date(limits = c(as_date('2020-02-01'), as_date('2020-07-02')), date_labels = "%b\n%Y", date_breaks = '1 month', expand = expansion()) +
   labs(x = NULL,
-       y = "Millions of turnstile entries"),
+       y = "Millions of turnstile entries",
   title = 'Figure 5b.<br>Weekly New York City Subway Turnstile Entries<br>',
               caption = '')  +
   theme(plot.margin = margin(0, 7, 0, 7))
@@ -377,7 +377,7 @@ data$figure6_1 %>%
                      breaks = seq(60, 105, 10),
                      limits = c(65, 105)) +
   labs(x = NULL,
-       y = "Week ending February 15, 2020 = 100"),
+       y = "Week ending February 15, 2020 = 100",
   title = 'Figure 6a.<br>ADP-FRB Employment by Wage Quartile',
        caption = "<br>Source: ADP, Inc. 2020 to 2021; Opportunity Insights 2020 to 2021 via Affinity; authors' calculations <br>Note: Seasonally adjusted seven-day moving averages are shown.") +
   guides(color = guide_legend(
@@ -496,7 +496,7 @@ data$figure8_2 %>%
         legend.text = element_text(size = 6),
         legend.key.size = unit(0.2, "cm")) +
   labs(x = NULL,
-       y = 'Percent of key card entries relative to February 2020'),
+       y = 'Percent of key card entries relative to February 2020',
   title = '<br>Figure 8b.<br>Kastle Key Card Office Building Entries, April 2020-October 2021<br>',
   caption = "") -> p2
 p1 | p2
