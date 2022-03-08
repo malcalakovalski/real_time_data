@@ -209,13 +209,13 @@ l <- (l1 + l2 + l3 + plot_layout(guides='collect') & theme(legend.position = 'no
                                                       )))
 
 
-p / l+wrap_elements(panel = l)+labs(caption="Source: ADP, Inc. (2020-2021), BLS CES(2020-2021); authors' calculations<br>Note:For ADP-FRB, paid  employment concept is plotted.")
+p / l+labs(caption="Source: ADP, Inc. (2020-2021), BLS CES(2020-2021); authors' calculations<br>Note:For ADP-FRB, paid  employment concept is plotted.")
 
 path <- 'figures/fig2'
 ggsave(glue::glue("{path}.pdf"), width = 6, height = 5, device = cairo_pdf, units = 'in', dpi = 300)
 
 
-##ggtitle('Figure 2.<br>Snapshots of Employment Data')
+##ggtitle('Figure 2.<br>Snapshots of Employment Data')+wrap_elements(panel = l)
 # brookings_save('figures/fig2.png', size = 'large',)
 # ggsave('figures/fig2.png')
 #
@@ -275,6 +275,7 @@ p3 <- snapshot2(census_until = '2020-05-31',
   theme(axis.text.y = element_blank())
 
 p1 + p2 + p3 +  plot_annotation(title = 'Figure 3.<br>Snapshots of Consumer Spending (percent change from same period in 2019)',
+                                
                                caption = 'Source: Census Bureau 2020; Fiserv 2020; OpenTable 2020; Transportation Security Administration 2020;<br>Note: Airport departures, restaurant reservations, and Fiserv retail sales are seven-day moving averages.')+  plot_layout(guides='collect') & theme(legend.position = 'bottom')
 
 path <- 'figures/fig3'
@@ -315,7 +316,7 @@ p2 <-data$figure4 %>%
         legend.direction = 'horizontal')
 
 fig_number = 'Figure 4.'
-title = 'Timing of ADP-FRB and BLS CES Employment Data Releases for Change in Employment, March 2020-September 2021'
+title = 'Timing of ADP-FRB and BLS CES Employment Data Releases for Change in Employment, March 2020-September 2021<br>'
 caption = "Source: ADP, Inc. 2020 to 2021; BLS CES 2020 to 2021; authors' calculations<br>Note: For ADP-FRB, paid employment concept is plotted."
 p1 + p2 +   plot_annotation(title = glue('{fig_number}<br>{title}'),
                           caption = glue('{caption}')) + plot_layout(guides='collect') & theme(legend.position = 'bottom')
