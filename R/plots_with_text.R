@@ -226,7 +226,7 @@ l <- (l1 + l2 + l3 + plot_layout(guides='collect') & theme(legend.position = 'no
 (wrap_elements(panel = p) +   ggtitle('Figure 2.<br>Snapshots of Employment Data'))/ wrap_elements(panel = l)+labs(caption="Source: ADP, Inc. 2020 to 2021, BLS CES 2020 to 2021; authors' calculations<br>Note:For ADP-FRB, paid  employment concept is plotted.")
 
 path <- 'figures-with-text/fig2'
-ggsave(glue::glue("{path}.pdf"), width = 8, height = 10, device = cairo_pdf, units = 'in', dpi = 300)
+ggsave(glue::glue("{path}.pdf"), width = 6, height = 5, device = cairo_pdf, units = 'in', dpi = 300)
 
 # brookings_save('figures/fig2.png', size = 'large',)
 # ggsave('figures/fig2.png')
