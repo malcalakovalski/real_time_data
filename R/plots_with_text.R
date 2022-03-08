@@ -488,7 +488,8 @@ data$figure8_1 %>%
                      limits = c(0, 75)) +
   scale_color_manual(values = unname(brookings_cols('THP_ltblue', 'THP_dkgreen', 'THP_purple')),
                      labels = c('Remote', 'Hybrid', 'In-person') ) +
-  theme(plot.title = element_textbox_simple(color = 'black', size = 12)) +
+  theme(plot.title = element_textbox_simple(color = 'black', size = 12),
+        plot.caption = element_textbox_simple(size=3,color="black")) +
   labs(x = NULL,
        y = 'Percent of students in public K-12 schools',
        title = '<br>Figure 8a.<br>Distribution of Students by School Instruction Modes, August 2020-June 2021<br>',
@@ -517,7 +518,7 @@ caption = "") -> p2
 p1 + p2 + plot_annotation(title = 'Figure 8.<br>School Instruction Mode and Keycard Office Entries, 2020-21')
 
 path <- 'figures-with-text/fig8'
-ggsave(glue::glue("{path}.pdf"), width = 8.5, height = 8, device = cairo_pdf)
+ggsave(glue::glue("{path}.pdf"), width = 4.5, height = 7, device = cairo_pdf)
 
 # Figure 9 ------------------------------------------------------------------------------------
 
@@ -579,7 +580,7 @@ ggplot() +
 
 path <- 'figures-with-text/fig9'
 
-ggsave(glue::glue("{path}.pdf"), width = 8, height = 7.5, device = cairo_pdf)
+ggsave(glue::glue("{path}.pdf"), width = 4.5, height = 4, device = cairo_pdf)
 # Figure 10 -----------------------------------------------------------------------------------
 
 
@@ -599,7 +600,7 @@ data$figure10_1 %>%
   labs(x =  NULL,
        y = 'Percent of businesses',
        title = 'Figure 10a.<br>Share of Businesses with No Transactions<br>',
-       caption = 'Source: Opportunity Insights 2020 to 2021 via Womply; Homebase 2020 to 2021<br>Note: The sample is limited to businesses with a clock-in on February 15, 2020 and businesses with a transaction on February 15, 2020.') +
+       caption = 'Source: Opportunity Insights 2020 to 2021 via Womply; Homebase 2020 to 2021<br>Note: The sample is limited to businesses with a clock-in on February 15, 2020 and businesses with a transaction on February 15, 2020.<br>') +
   theme(legend.position = 'bottom',
         plot.title = element_textbox_simple(size = 10, color = 'black'),
         plot.caption = element_textbox_simple(size=3,color="black")) +
