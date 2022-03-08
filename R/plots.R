@@ -198,10 +198,16 @@ l3 <- snapshot(adp_until = '2020-05-20',
 
 
 
-p <- (p1 + p2 + p3) + plot_layout(guides='collect') & theme(legend.position = 'none')
+p <- (p1 + p2 + p3) + plot_layout(guides='collect') & theme(legend.position = ("top"),
+                                                            plot.title = element_textbox_simple(color = 'black', size = 12))) + plot_annotation(
+                                                              title = 'Figure 2a.<br>Timing of ADP-FRB, LLP and BLS CES Private Paid Employment Data Releases'))
 
+l <- (l1 + l2 + l3 + plot_layout(guides='collect') & theme(legend.position = 'none',
+                                                           plot.title = element_textbox_simple(color = 'black', size = 12))) + plot_annotation(
+                                                             title = 'Figure 2b.<br>Timing of ADP-FRB, LLP and BLS CES Leasure and Hospitality Data Releases',
+                                                              
+                                                           )
 
-l <- (l1 + l2 + l3) + plot_layout(guides='collect')
 
 p / l
 
@@ -237,8 +243,8 @@ snapshot2 <- function(census_until = '2020-03-01', alt_until = '2020-03-31',
     geom_line(size = 1) +
     geom_point(size = 1.5) +
 
-    scale_color_manual(values = unname(brookings_cols("THP_dkblue","THP_green", "THP_ltblue", "THP_yellow", "THP_purple", "THP_orange")),
-                       labels = c('Airport departures', 'Census food services & drinking places', 'Census retail sales', 'Fiserv retail sales', 'Restaurants rsvs')) +
+    scale_color_manual(values = unname(brookings_cols("THP_dkblue","THP_green", "THP_ltpurple", "THP_yellow", "THP_purple", "THP_orange")),
+                       labels = c('Airport departures', 'Census food services & drinking places', 'Census retail sales', 'Fiserv retail sales', 'Restaurants reservations')) +
     scale_y_continuous(breaks = seq(-100, 30, 20),
                        limits = c(-100, 30)) +
     scale_x_date(limits = c(as_date('2020-01-01'), as_date('2020-05-20'))) +
@@ -266,10 +272,11 @@ p3 <- snapshot2(census_until = '2020-05-31',
   labs(y = NULL) +
   theme(axis.text.y = element_blank())
 
-p1 + p2 + p3 +  plot_layout(guides='collect') & theme(legend.position = 'bottom')
+p1 + p2 + p3 +  plot_annotation(title = 'Figure 3.<br>Snapshots of Consumer Spending (percent change from same period in 2019)',
+                               caption = 'Source: Census Bureau 2020; Fiserv 2020; OpenTable 2020; Transportation Security Administration 2020;<br>Note: Airport departures, restaurant reservations, and Fiserv retail sales are seven-day moving averages.')+  plot_layout(guides='collect') & theme(legend.position = 'bottom')
 
 path <- 'figures/fig3'
-ggsave(glue::glue("{path}.pdf"), width = 5.5, height = 4, device = cairo_pdf, units = 'in', dpi = 300)
+ggsave(glue::glue("{path}.pdf"), width = 5.5, height = 5, device = cairo_pdf, units = 'in', dpi = 300)
 
 
 
@@ -278,7 +285,7 @@ ggsave(glue::glue("{path}.pdf"), width = 5.5, height = 4, device = cairo_pdf, un
 p1 <- data$figure4 %>%
   select(date, ends_with('total')) %>%
   ggplot(aes(x = date, lty = 'ADP-FRB')) +
-  geom_line(aes(y = adp_frb_total), color = '#999999') +
+  geom_line(aes(y = adp_frb_total), color = '#666666') +
   geom_point(aes(y = bls_ces_total, fill = 'BLS-CES'),
              color = unname(brookings_cols('THP_orange'))) +
   scale_x_date(limits = c(as_date('2020-01-30'), as_date('2021-10-02')), date_labels = "%b\n%Y", date_breaks = '3 month') +
@@ -293,7 +300,7 @@ p1 <- data$figure4 %>%
 p2 <-data$figure4 %>%
   select(date, ends_with('leisure')) %>%
   ggplot(aes(x = date, lty = 'ADP-FRB')) +
-  geom_line(aes(y = adp_frb_leisure), color = '#999999') +
+  geom_line(aes(y = adp_frb_leisure), color = '#666666') +
   geom_point(aes(y = bls_ces_leisure, fill = 'BLS-CES'),
              color = unname(brookings_cols('THP_orange'))) +
   scale_x_date(limits = c(as_date('2020-01-30'), as_date('2021-10-02')), date_labels = "%b\n%Y", date_breaks = '3 month') +
@@ -305,7 +312,11 @@ p2 <-data$figure4 %>%
   theme(legend.position = 'bottom',
         legend.direction = 'horizontal')
 
-p1 + p2 +  plot_layout(guides='collect') & theme(legend.position = 'bottom')
+fig_number = 'Figure 4.'
+title = 'Timing of ADP-FRB and BLS CES Employment Data Releases for Change in Employment, March 2020-September 2021'
+caption = "Source: ADP, Inc. 2020 to 2021; BLS CES 2020 to 2021; authors' calculations<br>Note: For ADP-FRB, paid employment concept is plotted."
+p1 + p2 +   plot_annotation(title = glue('{fig_number}<br>{title}'),
+                          caption = glue('{caption}')) + plot_layout(guides='collect') & theme(legend.position = 'bottom')
 
 path <- 'figures/fig4'
 ggsave(glue::glue("{path}.pdf"), width = 4.5, height = 3, device = cairo_pdf, units = 'in', dpi = 300)
@@ -324,7 +335,9 @@ p1 <- data$figure5_1 %>%
                      limits = c(0, 500),
                      expand = expansion()) +
   labs(x = NULL,
-       y = "Cases per one million people") +
+       y = "Cases per one million people") 
+ title = 'Figure 5a.<br>COVID-19 Case Rates by Location<br>',
+       caption = '<br>Source: Metropolitan Transportation Authority 2020; New York Times (n.d.)<br>Note: Seven-day moving averages of COVID-19 data are depicted.Weekly estimates of transportation data are seasonally adjusted.') +
   theme(legend.position = 'bottom',
         plot.margin = margin(0, 7, 0, 7))
 
@@ -335,16 +348,18 @@ p2 <- data$figure5_2 %>%
   scale_y_continuous(breaks = seq(0, 40, 5),
                      limits = c(0, 40),
                      expand = expansion()) +
-  scale_x_date(limits = c(as_date('2020-03-01'), as_date('2020-07-02')), date_labels = "%b\n%Y", date_breaks = '1 month', expand = expansion()) +
+  scale_x_date(limits = c(as_date('2020-02-01'), as_date('2020-07-02')), date_labels = "%b\n%Y", date_breaks = '1 month', expand = expansion()) +
   labs(x = NULL,
-       y = "Millions of turnstile entries") +
+       y = "Millions of turnstile entries"),
+  title = 'Figure 5b.<br>Weekly New York City Subway Turnstile Entries<br>',
+              caption = '')  +
   theme(plot.margin = margin(0, 7, 0, 7))
 
 
 p1 | p2
 
 path <- 'figures/fig5'
-ggsave(glue::glue("{path}.pdf"), width = 4.5, height = 4, device = cairo_pdf)
+ggsave(glue::glue("{path}.pdf"), width = 4.5, height = 5, device = cairo_pdf)
 # Figure 6 ------------------------------------------------------------------------------------
 
 
@@ -362,7 +377,9 @@ data$figure6_1 %>%
                      breaks = seq(60, 105, 10),
                      limits = c(65, 105)) +
   labs(x = NULL,
-       y = "Week ending February 15, 2020 = 100") +
+       y = "Week ending February 15, 2020 = 100"),
+  title = 'Figure 6a.<br>ADP-FRB Employment by Wage Quartile',
+       caption = "<br>Source: ADP, Inc. 2020 to 2021; Opportunity Insights 2020 to 2021 via Affinity; authors' calculations <br>Note: Seasonally adjusted seven-day moving averages are shown.") +
   guides(color = guide_legend(
     nrow = 2,
     ncol = 2)) +
@@ -382,13 +399,15 @@ data$figure6_2 %>%
                      limits = c(-40, 40)) +
   geom_hline(yintercept = 0) +
   labs(x = NULL,
-       y = "Percent change from January 2020") +
+       y = "Percent change from January 2020",
+  title = '<br>Figure 6b.<br>Affinity Consumer Spending by Income<br>',
+       caption = "") +
   theme(legend.position = 'bottom') -> p2
 
 p1 | p2
 
 path <- 'figures/fig6'
-ggsave(glue::glue("{path}.pdf"), width = 4.5, height = 4, device = cairo_pdf)
+ggsave(glue::glue("{path}.pdf"), width = 4.5, height = 5, device = cairo_pdf)
 # Figure 7 ------------------------------------------------------------------------------------
 
 # Tibble used to shade dates when stimulus checks were sent out
@@ -410,7 +429,7 @@ break_vec <- c(as_date('2020-03-01'), seq(from = as_date('2020-06-01'),
 ggplot(data = data$figure7_1,
        aes(x = date, y = fiserv)) +
   geom_hline(yintercept = 0) +
-  geom_line(aes(color = '#999999'), size = 0.5, alpha = 0.9) +
+  geom_line(aes(color = '#666666'), size = 0.5, alpha = 0.9) +
   geom_line(data = data$figure7_2,
             mapping = aes(x = date, y = census,
                           color = unname(brookings_cols('THP_orange')))) +
@@ -420,7 +439,7 @@ ggplot(data = data$figure7_1,
                            color = unname(brookings_cols('THP_orange')))) +
   labs(x = NULL,
        y = 'Percent change from the same period in 2019') +
-  scale_color_manual(values = c('#999999', unname(brookings_cols('THP_orange'))),
+  scale_color_manual(values = c('#666666', unname(brookings_cols('THP_orange'))),
                      labels = c('Fiserv, 7-day avg.', 'Census Bureau')) +
   scale_x_date(limits = c(as_date('2020-03-01'), as_date('2021-12-30')), date_labels = "%b\n%Y", expand = expansion(),
                breaks = break_vec) +
@@ -428,13 +447,17 @@ ggplot(data = data$figure7_1,
                      breaks = seq(-30, 35, 10),
                      limits = c(-30, 35)) +
   geom_rect(data = eip,
-            mapping = aes(xmin = start, xmax = end, ymin = -Inf, ymax = Inf), fill = 'grey70', inherit.aes = FALSE, alpha = 0.4) +
+            mapping = aes(xmin = start, xmax = end, ymin = -Inf, ymax = Inf), fill = '666666', inherit.aes = FALSE, alpha = 0.4) +
   guides(color = guide_legend(
     override.aes = list(shape = c(NA, 16)))) +
-  theme(legend.position = 'bottom')
+  theme(legend.position = 'bottom')+
+  labs(title = 'Figure 7.<br>Census and Fiserv Consumer Spending<br>',
+       caption = 'Source: Census Bureau 2020 to 2021; Fiserv 2020 to 2021<br>Note: Bars indicate the week at which stimulus payment direct deposits commenced. Physical checks continued to be dispersed for 3-4 weeks after these dates.')
+
+
 
 path <- 'figures/fig7'
-ggsave(glue::glue("{path}.pdf"), width = 4.5, height = 3.5, device = cairo_pdf)
+ggsave(glue::glue("{path}.pdf"), width = 4.5, height = 5, device = cairo_pdf)
 
 # Figure 8 ------------------------------------------------------------------------------------
 
@@ -451,7 +474,9 @@ data$figure8_1 %>%
   scale_color_manual(values = unname(brookings_cols('THP_ltblue', 'THP_dkgreen', 'THP_purple')),
                     labels = c('Remote', 'Hybrid', 'In-person') ) +
   labs(x = NULL,
-       y = 'Percent of students') +
+        y = 'Percent of students in public K-12 schools',
+       title = '<br>Figure 8a.<br>Distribution of Students by School Instruction Modes, August 2020-June 2021<br>',
+       caption = '<br>Source: Burbio, Inc. 2020 to 2021;Kastle Systems 2020 to 2021<br>Note: Based on employee key card entries into office buildings. 7-day average through Jan. 6, 2021 and weekly readings thereafter.')+
   theme(legend.position = 'bottom',
         legend.text = element_text(size = 6),
         legend.key.size = unit(0.2, "cm")) -> p1
@@ -471,12 +496,13 @@ data$figure8_2 %>%
         legend.text = element_text(size = 6),
         legend.key.size = unit(0.2, "cm")) +
   labs(x = NULL,
-       y = 'Percent change in key card entries from February 2020') -> p2
-
+       y = 'Percent of key card entries relative to February 2020'),
+  title = '<br>Figure 8b.<br>Kastle Key Card Office Building Entries, April 2020-October 2021<br>',
+  caption = "") -> p2
 p1 | p2
 
 path <- 'figures/fig8'
-ggsave(glue::glue("{path}.pdf"), width = 4.5, height = 4, device = cairo_pdf)
+ggsave(glue::glue("{path}.pdf"), width = 4.5, height = 5, device = cairo_pdf)
 
 # Figure 9 ------------------------------------------------------------------------------------
 
@@ -491,7 +517,7 @@ scales::rescale(x = data$figure9_2$lh_emp,
 
 
 ylim.prim <- c(-80, 20)
-ylim.sec <- c(12, 16)
+ylim.sec <- c(12, 17)
 
 b <- diff(ylim.prim)/diff(ylim.sec)
 a <- ylim.prim[1] - b*ylim.sec[1]
@@ -499,7 +525,7 @@ a <- ylim.prim[1] - b*ylim.sec[1]
 ggplot() +
   geom_line(data = data$figure9_1,
             mapping = aes(x = date,
-                y =  opentable_pct_chg_2019, color = 'grey'),
+                y =  opentable_pct_chg_2019, color = '#666666'),
              alpha = 0.4) +
   geom_line(data = data$figure9_2,
             mapping = aes(x = date,
@@ -532,12 +558,15 @@ ggplot() +
     override.aes = list(shape = c(NA, 16)))) +
   theme(legend.position = 'bottom',
         axis.ticks.y.right = element_blank()) +
-  labs(x = NULL)
+    labs(x = NULL,
+       title = 'Figure 9.<br>OpenTable Reservations and BLS Leisure and Hospitality Employment, June 2020-September 2021',
+       caption = 'Source: BLS 2020 to 2021; OpenTable 2020 to 2021')
+
 
 
 path <- 'figures/fig9'
 
-ggsave(glue::glue("{path}.pdf"), width = 4.5, height = 4, device = cairo_pdf)
+ggsave(glue::glue("{path}.pdf"), width = 4.5, height = 5, device = cairo_pdf)
 # Figure 10 -----------------------------------------------------------------------------------
 
 data$figure10_1 %>%
@@ -554,7 +583,9 @@ data$figure10_1 %>%
   scale_color_manual(labels = c('All', 'Education & Health', 'Leisure & Hospitality', 'Retail & Transportation'),
                      values = unname(brookings_cols('THP_dkblue', 'THP_ltgreen', 'THP_orange', 'THP_purple'))) +
   labs(x =  NULL,
-       y = 'Percent of businesses') +
+       y = 'Percent of businesses',
+       title = 'Figure 10a.<br>Share of Businesses with No Transactions<br>',
+       caption = '<br>Source:Opportunity Insights 2020 to 2021 via Womply; Homebase 2020 to 2021<br>Note: The sample is limited to businesses with a clock-in on February 15, 2020 and businesses with a transaction on February 15, 2020.') +
   theme(legend.position = 'bottom') +
   # theme(legend.key.size = unit(0.25,"line")) +
   guides(color = guide_legend(nrow = 2,
@@ -574,15 +605,17 @@ data$figure10_2 %>%
   scale_color_manual(labels = c('2019', '2020'),
                      values = unname(brookings_cols('THP_yellow', 'THP_ltblue' ))) +
   labs(x =  NULL,
-       y = NULL) +
+       y = NULL, 
+       title = 'Figure 10b.<br>Share of Businesses with No Clock-Ins<br>',
+       caption = '') +
   theme(legend.position = 'bottom',
         axis.text.y = element_blank()) -> p2
 
 
-p1 + p2 & theme(legend.text = element_text(size = 4))
+p1 + p2 & theme(legend.text = element_text(size = 4)) + plot_annotation(title = 'Figure 10.<br>Measures of Small Business Closures')
 
 path <- 'figures/fig10'
-ggsave(glue::glue("{path}.pdf"), width = 4.5, height = 3.5, device = cairo_pdf)
+ggsave(glue::glue("{path}.pdf"), width = 4.5, height = 5, device = cairo_pdf)
 
 
 # Figure 11 -----------------------------------------------------------------------------------
@@ -599,8 +632,10 @@ data$figure11 %>% pivot_longer(-c(week_num, date)) %>%
                      limits = c(0, 550),
                      breaks = seq(0, 550, by = 100)) +
   labs(x = NULL,
-       y = '(Thousands)') +
-  theme(legend.position = 'bottom')
+       y = 'Applications in thousands') +
+  theme(legend.position = 'bottom')  +
+  labs(title = 'Figure 11.<br>Cumulative New Business Applications, Select Years',
+       caption = 'Source: Census Bureau 2017 to 2021.<br>Note: Business applications with planned paid employees.')
 
 path <- 'figures/fig11'
-ggsave(glue::glue("{path}.pdf"), width = 4.5, height = 4, device = cairo_pdf)
+ggsave(glue::glue("{path}.pdf"), width = 4.5, height = 5, device = cairo_pdf)
