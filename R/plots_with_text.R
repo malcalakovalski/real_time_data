@@ -467,12 +467,12 @@ ggplot(data = data$figure7_1,
     override.aes = list(shape = c(NA, 16)))) +
   theme(legend.position = 'bottom') +
   labs(title = 'Figure 7.<br>Census and Fiserv Consumer Spending<br>',
-       caption = 'Source: Census Bureau 2020 to 2021; Fiserv 2020 to 2021<br>Note: Bars indicate the week at which stimulus payment direct deposits commenced. Physical checks continued to be dispersed for 3-4 weeks after these dates.')
+       caption = 'Source: Census Bureau 2020 to 2021; Fiserv 2020 to 2021<br>Note: Bars indicate the week at which stimulus payment direct deposits commenced. Physical checks continued to be dispersed for 3-4 weeks after these dates.<br>')
 
 
 
 path <- 'figures-with-text/fig7'
-ggsave(glue::glue("{path}.pdf"), width = 8.5, height = 8, device = cairo_pdf)
+ggsave(glue::glue("{path}.pdf"), width = 4.5, height = 5, device = cairo_pdf)
 
 # Figure 8 ------------------------------------------------------------------------------------
 
