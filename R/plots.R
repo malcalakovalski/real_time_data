@@ -206,10 +206,10 @@ l <- (l1 + l2 + l3 + plot_layout(guides='collect') & theme(legend.position = 'no
                                                            plot.title = element_textbox_simple(color = 'black', size = 12) + plot_annotation(
                                                              title = 'Figure 2b.<br>Timing of ADP-FRB, LLP and BLS CES Leasure and Hospitality Data Releases',
                                                               
-                                                           ))
+                                                      )))
 
 
-p / l + ggtitle('Figure 2.<br>Snapshots of Employment Data'))/ wrap_elements(panel = l)+labs(caption="Source: ADP, Inc. (2020-2021), BLS CES(2020-2021); authors' calculations<br>Note:For ADP-FRB, paid  employment concept is plotted.")
+p / l + ggtitle('Figure 2.<br>Snapshots of Employment Data')+wrap_elements(panel = l)+labs(caption="Source: ADP, Inc. (2020-2021), BLS CES(2020-2021); authors' calculations<br>Note:For ADP-FRB, paid  employment concept is plotted.")
 
 path <- 'figures/fig2'
 ggsave(glue::glue("{path}.pdf"), width = 6, height = 5, device = cairo_pdf, units = 'in', dpi = 300)
