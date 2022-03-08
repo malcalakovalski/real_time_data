@@ -209,7 +209,7 @@ l <- (l1 + l2 + l3 + plot_layout(guides='collect') & theme(legend.position = 'no
                                                       )))
 
 
-p  + ggtitle('Figure 2.<br>Snapshots of Employment Data')/ l+labs(caption="Source: ADP, Inc. (2020-2021), BLS CES(2020-2021); authors' calculations<br>Note:For ADP-FRB, paid  employment concept is plotted.")
+p  + ggtitle('Figure 2.<br>Snapshots of Employment Data')/ l+wrap_elements(panel = l)+labs(caption="Source: ADP, Inc. (2020-2021), BLS CES(2020-2021); authors' calculations<br>Note:For ADP-FRB, paid  employment concept is plotted.")
 
 path <- 'figures/fig2'
 ggsave(glue::glue("{path}.pdf"), width = 6, height = 5, device = cairo_pdf, units = 'in', dpi = 300)
