@@ -631,7 +631,7 @@ data$figure10_2 %>%
 p1 + p2 + plot_annotation(title = 'Figure 10.<br>Measures of Small Business Closures')
 
 path <- 'figures-with-text/fig10'
-ggsave(glue::glue("{path}.pdf"), width = 8, height = 7.5, device = cairo_pdf)
+ggsave(glue::glue("{path}.pdf"), width = 4.5, height = 7.5, device = cairo_pdf)
 
 # Figure 11 -----------------------------------------------------------------------------------
 
