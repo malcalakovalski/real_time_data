@@ -288,7 +288,7 @@ p1 + p2 + p3 + plot_annotation(title = 'Figure 3.<br>Snapshots of Consumer Spend
                                caption = 'Source: Census Bureau 2020; Fiserv 2020; OpenTable 2020; Transportation Security Administration 2020;<br>Note: Airport departures, restaurant reservations, and Fiserv retail sales are seven-day moving averages.')+  plot_layout(guides='collect') & theme(legend.position = 'bottom')
 
 path <- 'figures-with-text/fig3'
-ggsave(glue::glue("{path}.pdf"), width = 8, height = 8, device = cairo_pdf, units = 'in', dpi = 300)
+ggsave(glue::glue("{path}.pdf"), width = 6, height = 5, device = cairo_pdf, units = 'in', dpi = 300)
 
 
 
@@ -331,7 +331,7 @@ p1 + p2 + plot_annotation(title = glue('{fig_number}<br>{title}'),
                           caption = glue('{caption}')) + plot_layout(guides='collect') & theme(legend.position = 'bottom')
 
 path <- 'figures-with-text/fig4'
-ggsave(glue::glue("{path}.pdf"), width = 8, height = 6, device = cairo_pdf, units = 'in', dpi = 300)
+ggsave(glue::glue("{path}.pdf"), width = 4.5, height = 5, device = cairo_pdf, units = 'in', dpi = 300)
 
 # Figure 5 ------------------------------------------------------------------------------------
 
